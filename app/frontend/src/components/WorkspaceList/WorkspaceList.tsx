@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";  // Importing a delete icon from react-icons
 import "./WorkspaceList.css";
 
 const WorkspaceList = () => {
     const [newWorkspaceName, setNewWorkspaceName] = useState("");
-    const [workspaces, setWorkspaces] = useState(["Healthcare", "Automobile"]);
+    const [workspaces, setWorkspaces] = useState<string[]>([]); // Initialize with an empty array
     const navigate = useNavigate();
+
+    // useEffect to add default workspaces excluding "Healthcare" and "Automobile"
+    useEffect(() => {
+        const defaultWorkspaces = ["Workspace1", "Workspace2", "Workspace3"]; // Replace with your desired default workspaces
+        setWorkspaces(defaultWorkspaces);
+    }, []);
 
     const handleWorkspaceClick = (workspace: string) => {
         navigate(`/workspaces/${workspace}`);
     };
 
     const handleCreateWorkspace = () => {
-        if (newWorkspaceName.trim() !== "") {
+        if (newWorkspaceName.trim() !== "" && !workspaces.includes(newWorkspaceName.trim())) {
             setWorkspaces([...workspaces, newWorkspaceName.trim()]);
             setNewWorkspaceName("");
         }
