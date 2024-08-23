@@ -41,6 +41,8 @@ class AdlsGen2Setup:
             Name of the container / filesystem in the Data Lake Storage Gen 2 account to use
         security_enabled_groups
             When creating groups in Microsoft Entra, whether or not to make them security enabled
+        mail_enabled_groups
+            When creating groups in Microsoft Entra, whether or not to make them mail enabled
         data_access_control_format
             File describing how to create groups, upload files with access control. See the sampleacls.json for the format of this file
         """
@@ -82,6 +84,7 @@ class AdlsGen2Setup:
                         if directory not in directories:
                             logging.error(f"File {file} has unknown directory {directory}, exiting...")
                             return
+                        
                         await self.upload_file(
                             directory_client=directories[directory], file_path=os.path.join(self.data_directory, file)
                         )
@@ -136,6 +139,8 @@ class AdlsGen2Setup:
                 group = {
                     "displayName": group_name,
                     "groupTypes": ["Unified"],
+                    "mailEnabled": False,
+                    "mailNickname": group_name,
                     "securityEnabled": self.security_enabled_groups,
                 }
                 async with session.post("https://graph.microsoft.com/v1.0/groups", json=group) as response:
@@ -159,13 +164,14 @@ async def main(args: Any):
             credentials=credentials,
             data_access_control_format=data_access_control_format,
         )
+        
         await command.run()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Upload sample data to a Data Lake Storage Gen2 account and associate sample access control lists with it using sample groups",
-        epilog="Example: ./scripts/adlsgen2setup.py ./data --data-access-control ./scripts/sampleacls.json --storage-account <name of storage account> --create-security-enabled-groups <true|false>",
+        epilog="Example: ./scripts/adlsgen2setup.py ./data --data-access-control ./scripts/sampleacls.json --storage-account <name of storage account> --create-security-enabled-groups <true|false> --create-mail-enabled-groups <true|false>",
     )
     parser.add_argument("data_directory", help="Data directory that contains sample PDFs")
     parser.add_argument(
@@ -176,8 +182,20 @@ if __name__ == "__main__":
     parser.add_argument(
         "--create-security-enabled-groups",
         required=False,
-        action="store_true",
+        default=True,
         help="Whether or not the sample groups created are security enabled in Microsoft Entra",
+    )
+    parser.add_argument(
+        "--create-mail-enabled-groups",
+        required=False,
+        default=False,
+        help="Whether or not the sample groups created are mail enabled in Microsoft Entra",
+    )
+    parser.add_argument(
+        "--mail-nickname",
+        required=False,
+        default="",
+        help="The mail alias for the group, unique for Microsoft 365 groups in the organization",
     )
     parser.add_argument(
         "--data-access-control", required=True, help="JSON file describing access control for the sample data"
@@ -187,5 +205,5 @@ if __name__ == "__main__":
     if args.verbose:
         logging.basicConfig()
         logging.getLogger().setLevel(logging.INFO)
-
+    
     asyncio.run(main(args))

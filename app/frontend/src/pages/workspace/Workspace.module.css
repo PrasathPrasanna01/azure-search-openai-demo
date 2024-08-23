@@ -1,0 +1,17 @@
+.workspace-container {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.workspace-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.workspace-content {
+    flex-grow: 1;
+    padding-top: 10px;
+}

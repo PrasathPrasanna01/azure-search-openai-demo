@@ -1,0 +1,54 @@
+.workspace-list {
+    padding: 20px;
+    max-width: 250px;
+    background-color: #f7f7f7;
+    height: 100vh;
+}
+
+.workspace-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+}
+
+.workspace-name {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.workspace-name:hover {
+    background-color: #d0d0d0;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+}
+
+button {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005a9e;
+}
+
+.delete-icon {
+    font-size: 18px;
+    color: red;
+    cursor: pointer;
+}
+
+.delete-icon:hover {
+    color: darkred;
+}

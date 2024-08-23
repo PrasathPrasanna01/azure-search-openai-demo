@@ -2,15 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import { initializeIcons } from "@fluentui/react";
-import { MsalProvider } from "@azure/msal-react";
-import { PublicClientApplication, EventType, AccountInfo } from "@azure/msal-browser";
-import { msalConfig, useLogin } from "./authConfig";
-import { useState } from "react";
+import LayoutWrapper from "./layoutWrapper";
+import Workspace from "./pages/workspace/Workspace";
+import Chat from "./pages/chat/Chat";
+import WorkspaceList from "./components/WorkspaceList/WorkspaceList";
 
 import "./index.css";
-
-import Chat from "./pages/chat/Chat";
-import LayoutWrapper from "./layoutWrapper";
 
 initializeIcons();
 
@@ -21,11 +18,27 @@ const router = createHashRouter([
         children: [
             {
                 index: true,
-                element: <Chat />
+                element: <div style={{ display: "flex" }}>
+                            <WorkspaceList />
+                            <Workspace />
+                        </div>
             },
             {
-                path: "qa",
-                lazy: () => import("./pages/ask/Ask")
+                path: "workspaces/:workspaceId",
+                element: <div style={{ display: "flex" }}>
+                            <WorkspaceList />
+                            <Workspace />
+                         </div>,
+                children: [
+                    {
+                        index: true,
+                        element: <Chat />
+                    },
+                    {
+                        path: "chat",
+                        element: <Chat />
+                    }
+                ]
             },
             {
                 path: "*",

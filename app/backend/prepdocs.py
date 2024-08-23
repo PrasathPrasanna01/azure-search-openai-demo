@@ -86,7 +86,12 @@ def setup_list_file_strategy(
 ):
     list_file_strategy: ListFileStrategy
     if datalake_storage_account:
-        if datalake_filesystem is None or datalake_path is None:
+        # print(datalake_filesystem)
+        # print("---------")
+        # print(datalake_path)
+        # return
+        # if datalake_filesystem is None or datalake_path is None:
+        if datalake_filesystem is None:
             raise ValueError("DataLake file system and path are required when using Azure Data Lake Gen2")
         adls_gen2_creds: Union[AsyncTokenCredential, str] = azure_credential if datalake_key is None else datalake_key
         logger.info("Using Data Lake Gen2 Storage Account: %s", datalake_storage_account)

@@ -519,7 +519,7 @@ module userStorage 'core/storage/storage-account.bicep' = if (useUserUpload) {
     bypass: bypass
     allowBlobPublicAccess: false
     allowSharedKeyAccess: false
-    isHnsEnabled: true
+    // isHnsEnabled: true
     sku: {
       name: storageSkuName
     }

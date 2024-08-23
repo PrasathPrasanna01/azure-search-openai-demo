@@ -21,18 +21,18 @@
     },
     "directories": {
         "employeeinfo": {
-            "groups": ["GPTKB_HRTest"]
+            "groups": ["owner", "employee"]
         },
         "benefitinfo": {
-            "groups": ["GPTKB_EmployeeTest", "GPTKB_HRTest"]
+            "groups": ["owner", "employee", "external"]
         },
         "/": {
-            "groups": ["GPTKB_AdminTest"]
+            "groups": ["owner"]
         }
     },
     "groups": [
-        "GPTKB_AdminTest",
-        "GPTKB_HRTest",
-        "GPTKB_EmployeeTest"
+        "employee",
+        "external",
+        "owner"
     ]
 }
